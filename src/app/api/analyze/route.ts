@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
-import { chromium } from 'playwright-core';
 import { saveReportData, RecommendationData, CompetitorData } from '@/lib/db';
 
 const SCHEMAS_TO_CHECK = [
@@ -51,14 +50,20 @@ export async function POST(req: Request) {
     if (textLength < 300 || h1Count === 0 || isSpaRoot) {
       console.log(`[Parser] Fallback to Playwright triggered for ${url}`);
       usedPlaywright = true;
-      try {
-        const browser = await chromium.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 15000 });
-        html = await page.content();
-        await browser.close();
-      } catch (e) {
-        console.error("Playwright failed:", e);
+      if (process.env.VERCEL === '1') {
+        console.log("[Parser] Playwright fallback skipped on Vercel serverless environment.");
+      } else {
+        try {
+          // Dynamic import to prevent Vercel module load failures
+          const { chromium } = await import('playwright-core');
+          const browser = await chromium.launch({ headless: true });
+          const page = await browser.newPage();
+          await page.goto(url, { waitUntil: 'networkidle', timeout: 15000 });
+          html = await page.content();
+          await browser.close();
+        } catch (e) {
+          console.error("Playwright failed:", e);
+        }
       }
     }
 
