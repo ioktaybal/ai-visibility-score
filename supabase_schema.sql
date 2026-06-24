@@ -68,8 +68,12 @@ CREATE TABLE IF NOT EXISTS leads (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL,
+    followup_sent BOOLEAN DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Migration statement to update existing tables if they already exist
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS followup_sent BOOLEAN DEFAULT false;
 
 -- Enable RLS and create public insert/read policies if needed, or bypass RLS if not configured.
 -- For standard anonymous CRUD (ensure anonymous users can insert/select):

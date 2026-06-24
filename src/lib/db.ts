@@ -116,6 +116,7 @@ export type LeadData = {
   first_name: string;
   last_name: string;
   email: string;
+  followup_sent?: boolean;
   created_at: string;
 };
 
@@ -136,6 +137,7 @@ export async function saveLead(reportId: string, firstName: string, lastName: st
       first_name: firstName,
       last_name: lastName,
       email,
+      followup_sent: false,
       created_at: new Date().toISOString()
     };
     (global as any).__mockStore = mockStore;
@@ -146,7 +148,8 @@ export async function saveLead(reportId: string, firstName: string, lastName: st
     report_id: reportId,
     first_name: firstName,
     last_name: lastName,
-    email
+    email,
+    followup_sent: false
   }]).select('id').single();
 
   if (error) throw error;
@@ -321,6 +324,58 @@ export async function getLeadsList(): Promise<LeadWithUrl[]> {
     created_at: lead.created_at,
     url: lead.reports?.url
   }));
+}
+
+export async function getPendingFollowups(): Promise<any[]> {
+  if (supabaseUrl === 'https://placeholder-url.supabase.co') {
+    const store = (global as any).__mockStore || mockStore;
+    const now = new Date();
+    return Object.values(store.leads).filter((lead: any) => {
+      if (lead.followup_sent) return false;
+      const created = new Date(lead.created_at);
+      const hoursAgo = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
+      return hoursAgo >= 5 && hoursAgo <= 24;
+    }).map((lead: any) => ({
+      ...lead,
+      reports: store.reports[lead.report_id]
+    }));
+  }
+
+  const now = new Date();
+  const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000).toISOString();
+  const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+
+  const { data, error } = await supabase
+    .from('leads')
+    .select('id, first_name, last_name, email, created_at, report_id, reports(url, client_name, client_location, overall_score)')
+    .eq('followup_sent', false)
+    .gte('created_at', twentyFourHoursAgo)
+    .lte('created_at', fiveHoursAgo);
+
+  if (error) {
+    console.error('Error fetching pending followups:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function markFollowupSent(leadId: string): Promise<void> {
+  if (supabaseUrl === 'https://placeholder-url.supabase.co') {
+    const store = (global as any).__mockStore || mockStore;
+    if (store.leads[leadId]) {
+      store.leads[leadId].followup_sent = true;
+      (global as any).__mockStore = store;
+    }
+    return;
+  }
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ followup_sent: true })
+    .eq('id', leadId);
+
+  if (error) throw error;
 }
 
 

@@ -42,11 +42,15 @@ export async function sendLeadEmails({
   // Strip leading/trailing quotes from env SMTP_FROM_NAME to prevent double-quote spam flags
   const rawFromName = process.env.SMTP_FROM_NAME || "Ismail Oktay BAL";
   const fromName = rawFromName.replace(/^["']|["']$/g, "");
+  
+  // Custom Reply-To address from environment variables
+  const replyToAddress = process.env.SMTP_REPLY_TO || "hi@ismailoktaybal.com";
 
   // 1. Send Email to the Lead (Personal & Conversational HTML Layout to bypass SPAM filters)
   const leadMailOptions = {
     from: `"${fromName}" <${process.env.SMTP_FROM_EMAIL || "report@iobs.link"}>`,
     to: email,
+    replyTo: replyToAddress,
     subject: `AI Visibility Score analysis for ${domainName}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; max-width: 600px; margin: 0 auto;">
@@ -84,6 +88,7 @@ export async function sendLeadEmails({
   const adminMailOptions = {
     from: `"${fromName}" <${process.env.SMTP_FROM_EMAIL || "report@iobs.link"}>`,
     to: process.env.ADMIN_NOTIFICATION_EMAIL || "report@iobs.link",
+    replyTo: replyToAddress,
     subject: `🚀 Lead Captured: ${domainName}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.5; color: #111827; max-width: 600px; margin: 0 auto;">
@@ -140,4 +145,83 @@ export async function sendLeadEmails({
   } catch (err) {
     console.error("[Mail Utility] Fatal error during SMTP execution:", err);
   }
+}
+
+export async function sendFollowupEmail({
+  firstName,
+  lastName,
+  email,
+  url,
+  reportId,
+  baseUrl
+}: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  url: string;
+  reportId: string;
+  baseUrl: string;
+}) {
+  const domainName = new URL(url).hostname;
+  const reportLink = `${baseUrl}/report/${reportId}`;
+
+  // Clean raw sender name
+  const rawFromName = process.env.SMTP_FROM_NAME || "Ismail Oktay BAL";
+  const fromName = rawFromName.replace(/^["']|["']$/g, "");
+  
+  const replyToAddress = process.env.SMTP_REPLY_TO || "hi@ismailoktaybal.com";
+
+  const followupMailOptions = {
+    from: `"${fromName}" <${process.env.SMTP_FROM_EMAIL || "report@iobs.link"}>`,
+    to: email,
+    replyTo: replyToAddress,
+    subject: `Strategic ideas for ${domainName}'s AI visibility`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; max-width: 600px; margin: 0 auto;">
+        <p>Hi ${firstName},</p>
+        
+        <p>I hope you had a chance to review the AI Visibility report I sent you earlier for <strong>${domainName}</strong>.</p>
+        
+        <p>In the report, we highlighted some key semantic gaps and citation opportunities. I wanted to briefly share the framework we use to help clinics and specialists bridge these gaps. It's called the <strong>AI Visibility Growth Program</strong>, and it focuses on turning your clinical expertise into discoverability inside conversational search models.</p>
+        
+        <p>Rather than traditional search engine optimization, the program centers on four strategic areas:</p>
+        
+        <ol style="padding-left: 20px; margin: 15px 0;">
+          <li style="margin-bottom: 12px;">
+            <strong>Authority Layer Development</strong>: Optimizing your medical entity profiles, implementing structured schemas, and mapping semantic relationships to help search engines connect your name with your clinical specialty.
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong>AI Citation Growth</strong>: Building citation-oriented content structures (like specialized FAQ ecosystems) designed specifically to trigger references and recommendations inside LLMs.
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong>Digital Reputation Enhancement</strong>: Securing external authority references and strategic medical citations that conversational scrapers index as trusted clinical guidelines.
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong>Patient Discovery Optimization</strong>: Tracking and optimizing how your practice appears inside ChatGPT search queries, Gemini responses, Perplexity citations, and Google AI Overviews.
+          </li>
+        </ol>
+        
+        <p>This is structured as an initial 6-month engagement where we manage and track your AI visibility share. The goal is to establish you as the top recommended choice when patients ask questions like <em>"Who is the best rhinoplasty surgeon in Madrid?"</em> or similar clinical queries related to your specialty.</p>
+        
+        <p>You can see a summary of the targets we modeled for your brand in your full report here:</p>
+        <p><a href="${reportLink}" target="_blank" style="color: #000080; font-weight: bold; text-decoration: underline;">${reportLink}</a></p>
+        
+        <p style="margin-bottom: 20px;">If you would like to see examples of how we implement these layers or talk through a custom growth roadmap for ${domainName}, feel free to reply directly to this email. No high-pressure sales pitches—just a direct look at the discoverability data.</p>
+        
+        <p style="margin-top: 30px; margin-bottom: 0;">Best regards,</p>
+        
+        <p style="margin-top: 15px; margin-bottom: 0; font-weight: bold; color: #111827;">Ismail Oktay BAL</p>
+        <p style="margin: 0; font-size: 13px; color: #4b5563;">Healthcare Growth Systems | SEO • GEO • AI Visibility Strategy</p>
+        <p style="margin: 0; font-size: 13px; color: #4b5563;">
+          <a href="mailto:hi@ismailoktaybal.com" style="color: #000080; text-decoration: none;">hi@ismailoktaybal.com</a> | 
+          <a href="https://www.ismailoktaybal.com" style="color: #000080; text-decoration: none;">www.ismailoktaybal.com</a>
+        </p>
+      </div>
+    `
+  };
+
+  console.log(`[Mail Utility] Dispatching program follow-up email to ${email}`);
+  const result = await transporter.sendMail(followupMailOptions);
+  console.log(`[Mail Utility] Program follow-up successfully sent to ${email}. MessageId:`, result.messageId);
+  return result;
 }
