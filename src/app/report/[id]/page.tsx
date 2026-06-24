@@ -124,7 +124,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
   };
 
   return (
-    <div style={{ padding: "4rem 1rem", background: "var(--background)" }}>
+    <div style={{ padding: "4rem 1rem", background: "var(--background)" }} className="report-page-container">
       <div className="container">
         {/* Header (Conditional Premium Cover) */}
         {isUnlocked ? (
@@ -148,7 +148,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
             <p style={{ fontSize: "1.15rem", fontWeight: "600", opacity: 0.8, color: "var(--primary)", marginBottom: "3rem" }}>
               Beyond Google. Beyond SEO.
             </p>
-            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "2rem", borderTop: "1px solid var(--border)", paddingTop: "2.5rem", maxWidth: "650px", margin: "0 auto" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "2rem", borderTop: "1px solid var(--border)", paddingTop: "2.5rem", maxWidth: "650px", margin: "0 auto" }} className="meta-flex">
               <div style={{ textAlign: "left" }}>
                 <span style={{ fontSize: "0.8rem", opacity: 0.5, textTransform: "uppercase", fontWeight: "bold", letterSpacing: "0.05em" }}>Prepared For</span>
                 <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "var(--foreground)", marginTop: "0.25rem" }}>{report.client_name || new URL(report.url).hostname}</div>
@@ -259,7 +259,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
         {/* UNLOCK CALL TO ACTION SECTION (Shows ONLY when locked) */}
         {!isUnlocked && (
           <div style={{ marginBottom: "4rem" }}>
-            <div className="card" style={{ 
+            <div className="card unlock-card" style={{ 
               maxWidth: "600px", 
               margin: "0 auto", 
               padding: "3rem 2.5rem", 
@@ -419,20 +419,20 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
                 Growth Potential
               </h2>
               
-              <div style={{ background: "linear-gradient(135deg, var(--accent) 0%, var(--card) 100%)", borderRadius: "12px", padding: "2.5rem", border: "1px solid var(--border)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "2rem", position: "relative", zIndex: 2 }}>
+              <div style={{ background: "linear-gradient(135deg, var(--accent) 0%, var(--card) 100%)", borderRadius: "12px", padding: "2.5rem", border: "1px solid var(--border)" }} className="growth-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "2rem", position: "relative", zIndex: 2 }} className="growth-timeline">
                   <div style={{ textAlign: "center", flex: 1, minWidth: "120px" }}>
                     <div style={{ fontSize: "2.25rem", fontWeight: "900", color: "var(--primary)" }}>{report.overall_score}</div>
                     <div style={{ fontSize: "0.85rem", fontWeight: "bold", opacity: 0.6, textTransform: "uppercase", marginTop: "0.25rem" }}>Current</div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.3, flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.3, flex: 1 }} className="growth-arrow">
                     <div style={{ height: "4px", width: "100%", backgroundColor: "var(--primary)", borderStyle: "dashed" }}></div>
                   </div>
                   <div style={{ textAlign: "center", flex: 1, minWidth: "120px" }}>
                     <div style={{ fontSize: "2.25rem", fontWeight: "900", color: "#f59e0b" }}>{pdfData.target_90_days}</div>
                     <div style={{ fontSize: "0.85rem", fontWeight: "bold", opacity: 0.6, textTransform: "uppercase", marginTop: "0.25rem" }}>90 Days Target</div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.3, flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.3, flex: 1 }} className="growth-arrow">
                     <div style={{ height: "4px", width: "100%", backgroundColor: "var(--primary)", borderStyle: "dashed" }}></div>
                   </div>
                   <div style={{ textAlign: "center", flex: 1, minWidth: "120px" }}>
@@ -460,7 +460,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
                   { phase: "Phase 3", title: "Digital Authority Building", desc: "Expanding authority signals through strategic publications, citations, professional references and expert positioning." },
                   { phase: "Phase 4", title: "AI Citation Strategy", desc: "Increasing the likelihood of being referenced, recommended and cited in AI-generated answers related to your medical specialty." }
                 ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start", backgroundColor: "var(--background)", border: "1px solid var(--border)", borderRadius: "8px", padding: "1.5rem" }}>
+                  <div key={i} style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start", backgroundColor: "var(--background)", border: "1px solid var(--border)", borderRadius: "8px", padding: "1.5rem" }} className="roadmap-phase-card">
                     <div style={{ backgroundColor: "var(--accent)", color: "var(--accent-foreground)", padding: "0.5rem 1rem", borderRadius: "6px", fontWeight: "bold", fontSize: "0.95rem" }}>
                       {item.phase}
                     </div>
@@ -532,7 +532,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
             )}
 
             {/* Section D & F: Visibility Revenue Opportunity & Conversational Gaps */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: "2rem", marginBottom: "4rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", marginBottom: "4rem" }} className="revenue-grid">
               {/* Visibility Revenue Opportunity */}
               <div style={{ background: "var(--accent)", color: "var(--accent-foreground)", padding: "2rem", borderRadius: "8px" }}>
                 <h2 style={{ fontSize: "1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -624,6 +624,54 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
       </div>
       <style jsx global>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        @media (max-width: 768px) {
+          .report-page-container {
+            padding: 2rem 0.5rem !important;
+          }
+          .card {
+            padding: 2rem 1.25rem !important;
+          }
+          .unlock-card {
+            padding: 2rem 1.25rem !important;
+          }
+          h2 {
+            font-size: 1.5rem !important;
+            line-height: 1.3 !important;
+            margin-bottom: 1.5rem !important;
+          }
+          h1 {
+            font-size: 1.85rem !important;
+          }
+          .meta-flex {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+            text-align: center !important;
+          }
+          .meta-flex > div {
+            text-align: center !important;
+          }
+          .growth-card {
+            padding: 1.5rem 1rem !important;
+          }
+          .growth-timeline {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+          }
+          .growth-arrow {
+            display: none !important;
+          }
+          .roadmap-phase-card {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+            padding: 1.25rem !important;
+          }
+          .revenue-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+        }
       `}</style>
     </div>
   );

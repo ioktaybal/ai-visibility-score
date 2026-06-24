@@ -18,17 +18,32 @@ import {
 export default function Home() {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url) return;
 
+    setError("");
+    const trimmed = url.trim();
+    
+    // Strip protocol to validate core domain shape
+    const withoutProtocol = trimmed.replace(/^https?:\/\//i, "");
+    
+    // Check if there are spaces or it doesn't match a standard domain pattern (at least domain.tld)
+    const domainRegex = /^[a-zA-Z0-9-][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/;
+    
+    if (trimmed.includes(" ") || !domainRegex.test(withoutProtocol)) {
+      setError("Please enter a valid website address (e.g., clinic.com or www.practice.com). Name inputs or search phrases are not supported.");
+      return;
+    }
+
     try {
       setIsLoading(true);
       
       // Ensure the URL has a protocol
-      let formattedUrl = url.trim();
+      let formattedUrl = trimmed;
       if (!/^https?:\/\//i.test(formattedUrl)) {
         formattedUrl = `https://${formattedUrl}`;
       }
@@ -45,9 +60,9 @@ export default function Home() {
 
       const data = await res.json();
       router.push(`/report/${data.reportId}`);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to analyze the URL. Please try again.");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to run the scan. Please verify that the website URL is correct and online.");
       setIsLoading(false);
     }
   };
@@ -108,15 +123,41 @@ export default function Home() {
             }}>
               <input
                 type="text"
-                placeholder="Enter clinic or hospital website (e.g., clinic.com)"
+                placeholder="Enter your website address (e.g., yourclinic.com)"
                 className="input-large"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (error) setError("");
+                }}
                 disabled={isLoading}
                 required
-                style={{ padding: "1.25rem 2rem", fontSize: "1.125rem" }}
+                style={{ 
+                  padding: "1.25rem 2rem", 
+                  fontSize: "1.125rem",
+                  borderColor: error ? "#ef4444" : "var(--border)"
+                }}
               />
             </div>
+
+            {error && (
+              <div style={{ 
+                color: "#ef4444", 
+                fontSize: "0.925rem", 
+                fontWeight: "600", 
+                display: "inline-flex", 
+                alignItems: "center", 
+                gap: "0.4rem", 
+                backgroundColor: "rgba(239, 68, 68, 0.06)", 
+                padding: "0.6rem 1.25rem", 
+                borderRadius: "9999px",
+                border: "1px solid rgba(239, 68, 68, 0.15)",
+                marginTop: "0.25rem"
+              }}>
+                <AlertCircle size={16} />
+                <span>{error}</span>
+              </div>
+            )}
             
             <button 
               type="submit" 
