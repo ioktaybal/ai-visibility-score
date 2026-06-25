@@ -370,12 +370,16 @@ export async function markFollowupSent(leadId: string): Promise<void> {
     return;
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('leads')
     .update({ followup_sent: true })
-    .eq('id', leadId);
+    .eq('id', leadId)
+    .select();
 
   if (error) throw error;
+  if (!data || data.length === 0) {
+    throw new Error(`Failed to update lead status: No rows were updated. Check if the 'Allow public update on leads' policy is missing in your Supabase database.`);
+  }
 }
 
 

@@ -94,3 +94,4 @@ CREATE POLICY "Allow public insert on recommendations" ON recommendations FOR IN
 
 CREATE POLICY "Allow public insert on leads" ON leads FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select on leads" ON leads FOR SELECT USING (true);
+CREATE POLICY "Allow public update on leads" ON leads FOR UPDATE USING (true);
