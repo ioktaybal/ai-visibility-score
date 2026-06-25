@@ -27,9 +27,14 @@ export async function POST(req: Request) {
       const report = await getReportData(reportId);
       if (report) {
         // Construct the base URL dynamically from request headers
-        const host = req.headers.get("host") || "localhost:3000";
-        const protocol = req.headers.get("x-forwarded-proto") || "http";
-        const origin = req.headers.get("origin") || `${protocol}://${host}`;
+        let origin = process.env.NEXT_PUBLIC_APP_URL || '';
+        if (!origin) {
+          const host = req.headers.get("host") || "localhost:3000";
+          const protocol = req.headers.get("x-forwarded-proto") || "http";
+          const dynamicOrigin = req.headers.get("origin") || `${protocol}://${host}`;
+          const isLocalhost = dynamicOrigin.includes("localhost") || dynamicOrigin.includes("127.0.0.1");
+          origin = isLocalhost ? dynamicOrigin : "https://app.ismailoktaybal.com";
+        }
 
         console.log(`[API /api/lead] Triggering email notifications for report ${reportId} with base URL: ${origin}`);
         

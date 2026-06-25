@@ -23,9 +23,13 @@ export async function GET(req: Request) {
     }
 
     // Dynamic base URL construction for reports
-    const host = req.headers.get("host") || "localhost:3000";
-    const protocol = req.headers.get("x-forwarded-proto") || "http";
-    const baseUrl = `${protocol}://${host}`;
+    let baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
+    if (!baseUrl) {
+      const host = req.headers.get("host") || "localhost:3000";
+      const protocol = req.headers.get("x-forwarded-proto") || "http";
+      const isLocalhost = host.includes("localhost") || host.includes("127.0.0.1");
+      baseUrl = isLocalhost ? `${protocol}://${host}` : "https://app.ismailoktaybal.com";
+    }
 
     const results = [];
 
