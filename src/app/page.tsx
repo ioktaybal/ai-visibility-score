@@ -26,6 +26,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("chatgpt");
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
   const router = useRouter();
 
   const handleAnalyze = async (e: React.FormEvent) => {
@@ -420,42 +421,56 @@ export default function Home() {
             <p className="section-subtitle-dark">See how leading healthcare practices are transforming patient acquisition in the era of conversational search.</p>
           </div>
 
-          <div className="testimonials-list" style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-            
-            {/* Testimonial 1: Dr. Ergün Kürün */}
-            <div className="testimonial-card-editorial">
-              <div className="testimonial-image-col">
-                <img src="/doctor_ergun.jpg" alt="Dr. Ergün Kürün" className="editorial-img" />
-              </div>
-              <div className="testimonial-text-col">
-                <span className="testimonial-tag">FEATURED SUCCESS STORY</span>
-                <p className="testimonial-quote">
-                  "We started seeing results in the very first week. Now in our fourth month, both our organic search traffic and new patient inquiries have seen a massive increase."
-                </p>
-                <div className="testimonial-author">
-                  <h4>Dr. Ergün Kürün</h4>
-                  <p>ENT (KBB) & Rhinoplasty Specialist, Adana</p>
+          <div className="testimonial-slider-wrapper">
+            {activeTestimonial === 0 ? (
+              /* Testimonial 1: Dr. Ergün Kürün */
+              <div className="testimonial-card-editorial fade-in-active">
+                <div className="testimonial-image-col">
+                  <img src="/doctor_ergun.jpg" alt="Dr. Ergün Kürün" className="editorial-img" />
+                </div>
+                <div className="testimonial-text-col">
+                  <span className="testimonial-tag">FEATURED SUCCESS STORY</span>
+                  <p className="testimonial-quote">
+                    "We started seeing results in the very first week. Now in our fourth month, both our organic search traffic and new patient inquiries have seen a massive increase."
+                  </p>
+                  <div className="testimonial-author">
+                    <h4>Dr. Ergün Kürün</h4>
+                    <p>ENT (KBB) & Rhinoplasty Specialist, Adana</p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Testimonial 2: Dt. Çağrı Altuntaş */}
-            <div className="testimonial-card-editorial reverse">
-              <div className="testimonial-image-col">
-                <img src="/doctor_cagri.jpg" alt="Dt. Çağrı Altuntaş" className="editorial-img" style={{ objectPosition: "center 20%" }} />
-              </div>
-              <div className="testimonial-text-col">
-                <span className="testimonial-tag">SUCCESS STORY</span>
-                <p className="testimonial-quote">
-                  "Following our website revamp and in the third month of working with Ismail, AI search agents started recommending our practice, and our web traffic has grown significantly."
-                </p>
-                <div className="testimonial-author">
-                  <h4>Dt. Çağrı Altuntaş</h4>
-                  <p>Aesthetic Dentist, Adana</p>
+            ) : (
+              /* Testimonial 2: Dt. Çağrı Altuntaş */
+              <div className="testimonial-card-editorial fade-in-active">
+                <div className="testimonial-image-col">
+                  <img src="/doctor_cagri.jpg" alt="Dt. Çağrı Altuntaş" className="editorial-img" style={{ objectPosition: "center 85%" }} />
+                </div>
+                <div className="testimonial-text-col">
+                  <span className="testimonial-tag">SUCCESS STORY</span>
+                  <p className="testimonial-quote">
+                    "Following our website revamp and in the third month of working with Ismail, AI search agents started recommending our practice, and our web traffic has grown significantly."
+                  </p>
+                  <div className="testimonial-author">
+                    <h4>Dt. Çağrı Altuntaş</h4>
+                    <p>Aesthetic Dentist, Nişantaşı, İstanbul</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
+            {/* Slider Navigation Dots */}
+            <div className="slider-dots-container">
+              <button 
+                onClick={() => setActiveTestimonial(0)} 
+                className={`slider-dot ${activeTestimonial === 0 ? "active" : ""}`}
+                aria-label="Dr. Ergün Kürün Testimonial"
+              />
+              <button 
+                onClick={() => setActiveTestimonial(1)} 
+                className={`slider-dot ${activeTestimonial === 1 ? "active" : ""}`}
+                aria-label="Dt. Çağrı Altuntaş Testimonial"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -1116,6 +1131,45 @@ export default function Home() {
           border-radius: var(--radius-lg);
           overflow: hidden;
           box-shadow: var(--shadow-md);
+        }
+        .testimonial-slider-wrapper {
+          width: 100%;
+          max-width: 1000px;
+          margin: 0 auto;
+          position: relative;
+        }
+        .fade-in-active {
+          animation: slideFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .slider-dots-container {
+          display: flex;
+          justify-content: center;
+          gap: 0.75rem;
+          margin-top: 2.5rem;
+        }
+        .slider-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: var(--border);
+          cursor: pointer;
+          transition: all 0.25s ease;
+          border: none;
+          padding: 0;
+        }
+        .slider-dot.active {
+          background-color: var(--accent-gold);
+          transform: scale(1.25);
         }
         @media (min-width: 1025px) {
           .testimonial-card-editorial.reverse {
