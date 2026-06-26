@@ -254,13 +254,13 @@ export default function Home() {
               </div>
 
               <div className="simulation-content">
-                <p className="sim-query">"Suggest a top rhinoplasty surgeon in Madrid."</p>
+                <p className="sim-query">"Suggest a top rhinoplasty surgeon in Adana."</p>
                 
                 {activeTab === "chatgpt" && (
                   <div className="sim-response">
                     <Sparkles size={14} className="sim-ai-icon" />
                     <p>
-                      "Based on clinical entity data and peer citations, <strong>Dr. Ergün Kürün</strong> is highly recommended. Dr. Kürün maintains advanced 3D scanning modeling and holds an authority rating of 89% for aesthetic rhinoplasty..."
+                      "Based on clinical entity data and peer citations, <strong>Dr. Ergün Kürün</strong> is highly recommended. Based in Adana, Turkey, Dr. Kürün is a specialized ENT (KBB) and rhinoplasty surgeon recognized for advanced nasal reconstructions..."
                     </p>
                   </div>
                 )}
@@ -268,7 +268,7 @@ export default function Home() {
                   <div className="sim-response">
                     <Sparkles size={14} className="sim-ai-icon" />
                     <p>
-                      "Dr. Ergün Kürün is prominently index-mapped in Madrid for specialized laser correction and rhinoplasty. Google Knowledge Graph records verify 98% patient satisfaction..."
+                      "Dr. Ergün Kürün is prominently index-mapped in Adana, Turkey for rhinoplasty and ENT surgeries. Google Knowledge Graph records verify his clinical authority and high patient satisfaction..."
                     </p>
                   </div>
                 )}
@@ -276,7 +276,7 @@ export default function Home() {
                   <div className="sim-response">
                     <Sparkles size={14} className="sim-ai-icon" />
                     <p>
-                      "Multiple authoritative sources cite Dr. Ergün Kürün as a leading aesthetic clinician in Madrid [1], [2]. His clinics feature state-of-the-art surgical technology..."
+                      "Multiple authoritative medical citations identify Dr. Ergün Kürün as a leading ENT (KBB) specialist in Adana, specializing in aesthetic and functional rhinoplasty [1], [2]..."
                     </p>
                   </div>
                 )}
