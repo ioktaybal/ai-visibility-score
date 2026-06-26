@@ -94,7 +94,6 @@ export default function Home() {
           <div className="nav-links">
             <button onClick={() => scrollToSection("features")} className="nav-link">Capabilities</button>
             <button onClick={() => scrollToSection("how-it-works")} className="nav-link">How It Works</button>
-            <button onClick={() => scrollToSection("pricing")} className="nav-link">Pricing</button>
             <button onClick={() => router.push("/admin")} className="nav-link-secondary">Access Portal</button>
             <button onClick={() => scrollToSection("scan-section")} className="nav-btn-primary">Run Scan</button>
           </div>
@@ -412,94 +411,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Editorial Testimonial Section */}
+      {/* Editorial Testimonials Section */}
       <section className="section-paper">
         <div className="container testimonial-container">
-          <div className="testimonial-card-editorial">
-            <div className="testimonial-image-col">
-              <img src="/testimonial_doctor.png" alt="Dr. Campos" className="editorial-img" />
-            </div>
-            <div className="testimonial-text-col">
-              <span className="testimonial-tag">SUCCESS STORY</span>
-              <p className="testimonial-quote">
-                "Our practice saw a 45% increase in high-intent patient inquiries over six months. When patients ask AI who the top plastic surgeon in Madrid is, our clinic is now consistently recommended."
-              </p>
-              <div className="testimonial-author">
-                <h4>Dr. Sofia Campos</h4>
-                <p>Founder, Campos Aesthetic Clinic</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Simple Pricing Section */}
-      <section className="section-pure" id="pricing">
-        <div className="container">
           <div className="section-header text-center">
-            <span className="section-label">PRICING PLANS</span>
-            <h2 className="section-title">Transparent, Value-Focused</h2>
-            <p className="section-subtitle-dark">Choose the tracking frequency and support tier matching your growth expectations.</p>
+            <span className="section-label">SUCCESS STORIES</span>
+            <h2 className="section-title">Verified Clinical Growth</h2>
+            <p className="section-subtitle-dark">See how leading healthcare practices are transforming patient acquisition in the era of conversational search.</p>
           </div>
 
-          <div className="pricing-grid">
-            {/* Starter */}
-            <div className="pricing-card">
-              <h3 className="plan-name">Starter</h3>
-              <p className="plan-desc">For individual practitioners establishing basic AI visibility.</p>
-              <div className="price-row">
-                <span className="price-symbol">$</span>
-                <span className="price-amount">0</span>
-                <span className="price-period">/mo</span>
+          <div className="testimonials-list" style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
+            
+            {/* Testimonial 1: Dr. Ergün Kürün */}
+            <div className="testimonial-card-editorial">
+              <div className="testimonial-image-col">
+                <img src="/doctor_ergun.jpg" alt="Dr. Ergün Kürün" className="editorial-img" />
               </div>
-              <ul className="plan-features">
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>1 Scanned domain</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Basic AI model scan</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Initial recommendations</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>PDF export access</span></li>
-              </ul>
-              <button onClick={() => scrollToSection("scan-section")} className="btn-secondary-plan">Get Free Scan</button>
+              <div className="testimonial-text-col">
+                <span className="testimonial-tag">FEATURED SUCCESS STORY</span>
+                <p className="testimonial-quote">
+                  "We started seeing results in the very first week. Now in our fourth month, both our organic search traffic and new patient inquiries have seen a massive increase."
+                </p>
+                <div className="testimonial-author">
+                  <h4>Dr. Ergün Kürün</h4>
+                  <p>ENT (KBB) & Rhinoplasty Specialist, Adana</p>
+                </div>
+              </div>
             </div>
 
-            {/* Growth */}
-            <div className="pricing-card highlighted">
-              <div className="card-badge-gold">RECOMMENDED</div>
-              <h3 className="plan-name">Growth</h3>
-              <p className="plan-desc">For clinics actively competing for AI search recommendations.</p>
-              <div className="price-row">
-                <span className="price-symbol">$</span>
-                <span className="price-amount">199</span>
-                <span className="price-period">/mo</span>
+            {/* Testimonial 2: Dt. Çağrı Altuntaş */}
+            <div className="testimonial-card-editorial reverse">
+              <div className="testimonial-image-col">
+                <img src="/doctor_cagri.jpg" alt="Dt. Çağrı Altuntaş" className="editorial-img" style={{ objectPosition: "center 20%" }} />
               </div>
-              <ul className="plan-features">
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>3 Scanned domains</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Bi-weekly automated audits</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Full entity connection tracking</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Competitor comparative reports</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Custom growth roadmap mapping</span></li>
-              </ul>
-              <button onClick={() => scrollToSection("scan-section")} className="btn-primary-plan">Subscribe & Align</button>
+              <div className="testimonial-text-col">
+                <span className="testimonial-tag">SUCCESS STORY</span>
+                <p className="testimonial-quote">
+                  "Following our website revamp and in the third month of working with Ismail, AI search agents started recommending our practice, and our web traffic has grown significantly."
+                </p>
+                <div className="testimonial-author">
+                  <h4>Dt. Çağrı Altuntaş</h4>
+                  <p>Aesthetic Dentist, Adana</p>
+                </div>
+              </div>
             </div>
 
-            {/* Enterprise */}
-            <div className="pricing-card">
-              <h3 className="plan-name">Enterprise</h3>
-              <p className="plan-desc">For healthcare networks and large multi-location groups.</p>
-              <div className="price-row">
-                <span className="price-symbol">Custom</span>
-              </div>
-              <ul className="plan-features">
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Unlimited scanned domains</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Real-time scanner updates</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Dedicated clinical growth advisor</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>Custom API integration support</span></li>
-                <li><CheckCircle2 size={16} className="check-icon" /> <span>White-label client portal option</span></li>
-              </ul>
-              <button onClick={() => scrollToSection("scan-section")} className="btn-secondary-plan">Contact Solutions</button>
-            </div>
           </div>
         </div>
       </section>
+
 
       {/* Premium CTA Block */}
       <section className="dark-cta-section">
@@ -523,14 +483,13 @@ export default function Home() {
               <span>AI Visibility Platform</span>
             </div>
             <p className="footer-brand-desc">
-              We help healthcare professionals, private practices, and medical groups secure digital authority and become the recommendations AI engines present to patients.
+              An AI-native discoverability platform developed by Ismail Oktay Bal, helping healthcare professionals, private practices, and medical groups secure digital authority and become the recommendations AI engines present to patients.
             </p>
           </div>
           <div className="footer-links-col">
             <h4>Solutions</h4>
             <button onClick={() => scrollToSection("features")} className="footer-link">Capabilities</button>
             <button onClick={() => scrollToSection("how-it-works")} className="footer-link">How It Works</button>
-            <button onClick={() => scrollToSection("pricing")} className="footer-link">Pricing</button>
           </div>
           <div className="footer-links-col">
             <h4>Resources</h4>
@@ -541,7 +500,7 @@ export default function Home() {
 
         <div className="container footer-bottom">
           <p className="footer-sig">
-            Prepared by Ismail Oktay Bal | Healthcare Growth Systems | SEO • GEO • AI Visibility Strategy
+            Ismail Oktay Bal | Healthcare Growth Systems | SEO • GEO • AI Visibility Strategy
           </p>
           <p className="footer-copy">
             © {new Date().getFullYear()} AI Visibility Platform. All rights reserved.
@@ -1157,6 +1116,18 @@ export default function Home() {
           border-radius: var(--radius-lg);
           overflow: hidden;
           box-shadow: var(--shadow-md);
+        }
+        @media (min-width: 1025px) {
+          .testimonial-card-editorial.reverse {
+            grid-template-columns: 1.15fr 0.85fr;
+          }
+          .testimonial-card-editorial.reverse .testimonial-image-col {
+            grid-column: 2;
+          }
+          .testimonial-card-editorial.reverse .testimonial-text-col {
+            grid-column: 1;
+            grid-row: 1;
+          }
         }
         .testimonial-image-col {
           position: relative;
